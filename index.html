@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wubs AI</title>
+<meta name="description" content="Wubs AI — en svensk arbetsplats för ehandel. Förhandsvisning av etapp 1.">
+<style>
+  :root {
+    --bg: #f3efe5;
+    --surface: #fdfbf7;
+    --ink: #1b2823;
+    --ink-soft: #5a6660;
+    --ink-faint: #8a938d;
+    --accent: #b8532c;
+    --accent-soft: #f0e2d8;
+    --sage: #e7ece3;
+    --line: #ddd6c8;
+    --shadow: 0 1px 2px rgba(27, 40, 35, .06), 0 12px 32px rgba(27, 40, 35, .08);
+    --radius: 14px;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #141a17;
+      --surface: #1b2420;
+      --ink: #eae6dc;
+      --ink-soft: #a8b1aa;
+      --ink-faint: #7d867f;
+      --accent: #e07f52;
+      --accent-soft: #33241c;
+      --sage: #1f2a24;
+      --line: #2c3832;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 32px rgba(0, 0, 0, .35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141a17;
+    --surface: #1b2420;
+    --ink: #eae6dc;
+    --ink-soft: #a8b1aa;
+    --ink-faint: #7d867f;
+    --accent: #e07f52;
+    --accent-soft: #33241c;
+    --sage: #1f2a24;
+    --line: #2c3832;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 32px rgba(0, 0, 0, .35);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 16px; }
+
+  .eyebrow {
+    font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 600; margin: 0 0 10px;
+  }
+
+  header { padding: 72px 0 8px; }
+  .mark { display: flex; align-items: baseline; gap: 4px; margin-bottom: 36px; }
+  .mark b { font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+  .mark span { color: var(--accent); font-size: 26px; line-height: 1; }
+  h1 {
+    font-size: clamp(2.3rem, 6vw, 3.7rem); line-height: 1.05;
+    letter-spacing: -.03em; font-weight: 700; margin: 0 0 20px; max-width: 16ch;
+  }
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: var(--ink-soft); max-width: 58ch; margin: 0 0 28px; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent-soft); color: var(--accent);
+    border-radius: 999px; padding: 5px 13px;
+    font-size: 13px; font-weight: 600; white-space: nowrap;
+  }
+  .badge.neutral { background: var(--sage); color: var(--ink-soft); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .notice {
+    margin: 48px 0 0; padding: 20px 22px;
+    background: var(--sage); border-radius: var(--radius);
+    border-left: 3px solid var(--accent);
+    font-size: 15.5px; color: var(--ink-soft);
+  }
+  .notice strong { color: var(--ink); }
+
+  section { padding: 64px 0 0; }
+  h2 {
+    font-size: clamp(1.5rem, 3.4vw, 2.1rem); letter-spacing: -.02em;
+    font-weight: 700; margin: 0 0 14px; line-height: 1.15;
+  }
+  h3 { font-size: 1.22rem; letter-spacing: -.01em; font-weight: 650; margin: 0 0 8px; }
+  p { margin: 0 0 16px; }
+  .muted { color: var(--ink-soft); }
+
+  .shot { margin: 0 0 56px; }
+  .shot figcaption { margin-top: 18px; max-width: 64ch; }
+  .shot figcaption p { color: var(--ink-soft); font-size: 16px; margin: 0; }
+  .frame {
+    display: block; width: 100%; height: auto;
+    border-radius: var(--radius); border: 1px solid var(--line);
+    box-shadow: var(--shadow); background: var(--surface);
+  }
+
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 28px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
+  .card h3 { margin-bottom: 6px; }
+  .card p { font-size: 15px; color: var(--ink-soft); margin: 0; }
+
+  .table-wrap { overflow-x: auto; margin-top: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 15.5px; }
+  th, td { text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  .tag { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+  .tag.real { background: var(--sage); color: var(--ink); }
+  .tag.sim { background: var(--accent-soft); color: var(--accent); }
+
+  footer {
+    margin-top: 80px; padding: 32px 0 64px;
+    border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 14.5px;
+  }
+  footer p { margin: 0 0 6px; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    header { padding-top: 48px; }
+    section { padding-top: 48px; }
+    .shot { margin-bottom: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="mark"><b>wubs</b><span>✳</span></div>
+    <p class="eyebrow">Arbetsplats för ehandel</p>
+    <h1>Din butik. Hela bilden.</h1>
+    <p class="lede">
+      En svensk AI-arbetsplats för Shopify-butiker och byråer. Dashboard, kopplade tjänster,
+      avgränsad chatt, proaktiva förslag och granskade åtgärder — i ett sammanhang.
+    </p>
+    <div class="badges">
+      <span class="badge"><span class="dot"></span>Etapp 1</span>
+      <span class="badge neutral">Lokal demo</span>
+      <span class="badge neutral">200 tester passerar</span>
+    </div>
+
+    <div class="notice">
+      <strong>Det här är en förhandsvisning, inte en körande tjänst.</strong>
+      Bilderna är tagna från appen som den faktiskt ser ut, med seedad demodata.
+      Appen körs lokalt och har ännu ingen riktig inloggning — därför finns den inte
+      publikt. Siffrorna nedan är påhittade demovärden.
+    </div>
+  </header>
+
+  <section>
+    <h2>Sex vyer som hänger ihop</h2>
+    <p class="muted" style="max-width:62ch">
+      Byråer väljer organisation och butik; all verksamhetsdata stannar i rätt sammanhang.
+      Servern kontrollerar organisation, butik, roll och kopplingsrättighet vid varje anrop —
+      inte gränssnittet.
+    </p>
+
+    <figure class="shot" style="margin-top:36px">
+      <img class="frame" src="assets/01-oversikt.jpg" alt="Översiktsvyn med försäljning, order, annonskostnad och organisk trafik" loading="lazy" width="800" height="544">
+      <figcaption>
+        <h3>Översikt</h3>
+        <p>
+          Faktisk butiksförsäljning hålls skild från Google och Metas attribuerade intäkter —
+          de kan överlappa och summeras aldrig ihop. Marginal visas som saknad, inte som noll,
+          eftersom produktkostnad och frakt inte är inlästa.
+        </p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img class="frame" src="assets/02-chatt.jpg" alt="Chattvyn i läget Alla med en analys av försäljning och annonskostnad" loading="lazy" width="800" height="544">
+      <figcaption>
+        <h3>Chatt</h3>
+        <p>
+          Fem lägen: Shopify, Google Ads, Meta, SEO och Alla. Varje svar redovisar källa,
+          period, valuta, tidszon och begränsningar, och använder samma beräkning som
+          dashboarden. Observerat problem hålls isär från möjlig orsak.
+        </p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img class="frame" src="assets/03-forslag.jpg" alt="Förslagsvyn med två fynd: aktiv annons till 404 och annons för slut produkt" loading="lazy" width="800" height="544">
+      <figcaption>
+        <h3>Förslag</h3>
+        <p>
+          Två datadrivna kontroller: aktiv annons till en bekräftad 404, och annons för en
+          slutsåld produkt. Varje fynd visar observation, möjlig orsak, evidens och nästa steg.
+          Körs kontrollerna igen dupliceras inte samma aktiva fynd.
+        </p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img class="frame" src="assets/04-arbete.jpg" alt="Arbetsvyn med utkast i olika status" loading="lazy" width="800" height="544">
+      <figcaption>
+        <h3>Arbete</h3>
+        <p>
+          Kampanjsidor, annonsutkast och pausförslag samlade med status och version.
+          Inget lämnar Wubs utan att någon har granskat det.
+        </p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img class="frame" src="assets/05-granskning.jpg" alt="Granskningsdialogen med före och efter, version och godkännande" loading="lazy" width="800" height="538">
+      <figcaption>
+        <h3>Granskning och godkännande</h3>
+        <p>
+          Ett godkännande binds till <em>exakt</em> den version som granskats. Ändrar du
+          något ökar versionen och godkännandet återkallas automatiskt. Genomförandet är
+          atomiskt: resultatet läses tillbaka och loggas i samma transaktion, och ett
+          upprepat anrop ger samma sparade resultat i stället för en ny ändring.
+        </p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img class="frame" src="assets/06-kopplingar.jpg" alt="Kopplingsvyn med fem tjänster och deras behörigheter" loading="lazy" width="800" height="544">
+      <figcaption>
+        <h3>Kopplingar</h3>
+        <p>
+          Shopify och Google Ads, Analytics och Search Console kan anslutas på riktigt med
+          officiell inloggning och kontoval. Varje tjänst är märkt Demo eller Riktig koppling,
+          och exakt vilka behörigheter Wubs använder står utskrivet på kortet.
+        </p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img class="frame" src="assets/07-historik.jpg" alt="Historikvyn med händelselogg och bakgrundsjobb" loading="lazy" width="800" height="544">
+      <figcaption>
+        <h3>Historik</h3>
+        <p>
+          Varje sparat utkast, godkännande, återkallande och genomförande hamnar i en
+          händelselogg med vem, när och vad. Jobb som bara delvis lyckas redovisas som
+          delvis lyckade, inte som klara.
+        </p>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Vad är riktigt, och vad är simulerat?</h2>
+    <p class="muted" style="max-width:62ch">
+      Etapp 1 är en lokal produktgrund. Den här tabellen är avsiktligt ärlig — inget nedan
+      beskrivs som färdigt för att det ser färdigt ut i bilderna.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Del</th><th>Status</th><th>Innebörd</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Databas och behörigheter</td>
+            <td><span class="tag real">Riktigt</span></td>
+            <td>PostgreSQL med migrationer, beständig data, serverkontrollerad organisation, butik och roll.</td>
+          </tr>
+          <tr>
+            <td>Godkännandeflödet</td>
+            <td><span class="tag real">Riktigt</span></td>
+            <td>Versionsbundna godkännanden, radlås, transaktioner och auditlogg.</td>
+          </tr>
+          <tr>
+            <td>Shopify och Google</td>
+            <td><span class="tag real">Riktigt, läsande</span></td>
+            <td>OAuth, krypterade tokens och synk är implementerade. Ännu inte liveprovade mot verkliga konton.</td>
+          </tr>
+          <tr>
+            <td>Meta</td>
+            <td><span class="tag sim">Simulerat</span></td>
+            <td>Endast demo-adapter. Riktig Meta-koppling återstår.</td>
+          </tr>
+          <tr>
+            <td>AI</td>
+            <td><span class="tag sim">Simulerat</span></td>
+            <td>Deterministisk lokal motor via samma verktygslager. Ingen extern språkmodell, ingen kostnad.</td>
+          </tr>
+          <tr>
+            <td>Inloggning</td>
+            <td><span class="tag sim">Simulerat</span></td>
+            <td>Bytbar demoidentitet för test. Produktionsstart är avsiktligt blockerad.</td>
+          </tr>
+          <tr>
+            <td>Externa ändringar</td>
+            <td><span class="tag sim">Simulerat</span></td>
+            <td>Genomförande skapar en lokal opublicerad resurs. Inget publiceras, ingen budget ändras.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Under ytan</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Next.js och TypeScript</h3>
+        <p>React 19, Drizzle ORM och PostgreSQL. Körs lokalt utan Docker eller API-nycklar.</p>
+      </div>
+      <div class="card">
+        <h3>200 tester</h3>
+        <p>Isolering mellan organisationer och butiker, rollgränser, återkallade godkännanden och samtidiga dubbla genomföranden.</p>
+      </div>
+      <div class="card">
+        <h3>Server före gränssnitt</h3>
+        <p>Roller och konto-ID härleds ur databasen. Direkta API-anrop förbi gränssnittet avvisas.</p>
+      </div>
+      <div class="card">
+        <h3>Krypterade uppgifter</h3>
+        <p>Butikernas tokens lagras med AES-256-GCM bundet till organisation och butik. Inget hamnar i loggar.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Härnäst</h2>
+    <p class="muted" style="max-width:62ch">
+      Etapp 2 gör Wubs till en läsande pilot för en riktig butik: verklig inloggning och
+      medlemskap, verifierad Shopify-installation, Meta-koppling och en kostnadsbegränsad
+      språkmodell på samma verktygslager. Godkännandeflödet stannar lokalt tills dess.
+      Publicering och externa ändringar hör till en senare etapp.
+    </p>
+  </section>
+
+  <footer>
+    <p>Wubs · arbetsplats för ehandel</p>
+    <p>Förhandsvisning av etapp 1 · 3 oktober 2026 · demodata, inga verkliga butikssiffror</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
